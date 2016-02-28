@@ -152,6 +152,9 @@ export default class Base extends Transformer {
    */
   getDirectives(comment) {
     return comment.split('\n').map(function(line) {
+      if (!line.match(/=\s*(?:include|require|require_tree|stub)/i)) {
+        return { directive: null, path: null };
+      }
       let text = line.replace(/^.*=/, '').trim();
       if (text.match(/^(include|require|require_tree|stub)\s(.+)/)) {
         return { directive: RegExp.$1, path: RegExp.$2 };
